@@ -24,15 +24,21 @@ namespace POC_Excel
         {
 
             DataTable dtExcel = new DataTable();
-            string conn = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @"Lista studenti.xlsx" + "; Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
+            string conn = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @"Lista studenti.xlsx" + "; Extended Properties='Excel 12.0;HDR=NO';"; 
 
             OleDbConnection con = new OleDbConnection(conn);
 
-            OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Foaie1$]", con); //here we read data from sheet1  
-            oleAdpt.Fill(dtExcel); //fill excel data into dataTable  
+            OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Foaie1$]", con); 
+            oleAdpt.Fill(dtExcel);
 
-            dataGridView1.Visible = true;
-            dataGridView1.DataSource = dtExcel;
+
+            foreach (DataRow row in dtExcel.Rows)
+            {
+                foreach (var item in row.ItemArray)
+                {
+                    Console.WriteLine(item);
+                }
+            }
 
         }
 }
