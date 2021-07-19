@@ -36,14 +36,6 @@ namespace POC_Excel
                 t.Value = ((string)t.Value).ToUpper();
             }
 
-            //var abc = worksheet.Cells[2, 1].Value;
-            //Range row1 = worksheet.Rows.Cells[1, 1];
-            //Range row2 = worksheet.Rows.Cells[2, 1];
-
-            //row1.Value = "Test100";
-            //row2.Value = "Test200";
-
-
             excel.Application.ActiveWorkbook.Save();
             excel.Application.Quit();
             excel.Quit();
