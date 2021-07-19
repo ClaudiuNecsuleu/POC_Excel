@@ -22,49 +22,18 @@ namespace POC_Excel
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string filePath = string.Empty;
-            string fileExt = string.Empty;
-            OpenFileDialog file = new OpenFileDialog(); //open dialog to choose file  
-            if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK) //if there is a file choosen by the user  
-            {
-                filePath = file.FileName; //get the path of the file  
-                fileExt = Path.GetExtension(filePath); //get the file extension  
-                if (fileExt.CompareTo(".xls") == 0 || fileExt.CompareTo(".xlsx") == 0)
-                {
- 
-                        DataTable dtExcel = new DataTable();
-                        dtExcel = ReadExcel(filePath, fileExt); //read excel file  
-                        dataGridView1.Visible = true;
-                        dataGridView1.DataSource = dtExcel;
 
-                }
-                else
-                {
-                    MessageBox.Show("Please choose .xls or .xlsx file only.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error); //custom messageBox to show error  
-                }
-            }
-        }
+            DataTable dtExcel = new DataTable();
+            string conn = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @"Lista studenti.xlsx" + "; Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
 
-        public DataTable ReadExcel(string fileName, string fileExt)
-        {
-            string conn = string.Empty;
-            DataTable dtexcel = new DataTable();
-            if (fileExt.CompareTo(".xls") == 0)
-                conn = @"provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + fileName + ";Extended Properties='Excel 8.0;HRD=Yes;IMEX=1';"; //for below excel 2007  
-            else
-                conn = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileName + ";Extended Properties='Excel 12.0;HDR=NO';"; //for above excel 2007  
-            using (OleDbConnection con = new OleDbConnection(conn))
-            {
+            OleDbConnection con = new OleDbConnection(conn);
 
-                    OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Foaie1$]", con); //here we read data from sheet1  
-                    oleAdpt.Fill(dtexcel); //fill excel data into dataTable  
+            OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Foaie1$]", con); //here we read data from sheet1  
+            oleAdpt.Fill(dtExcel); //fill excel data into dataTable  
 
-            }
-            return dtexcel;
-        }
-        private void Form1_Load(object sender, EventArgs e)
-        {
+            dataGridView1.Visible = true;
+            dataGridView1.DataSource = dtExcel;
 
         }
-    }
+}
 }
