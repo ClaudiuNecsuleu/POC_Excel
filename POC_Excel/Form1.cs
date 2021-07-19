@@ -56,7 +56,7 @@ namespace POC_Excel
             using (OleDbConnection con = new OleDbConnection(conn))
             {
 
-                    OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Sheet1$]", con); //here we read data from sheet1  
+                    OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Foaie1$]", con); //here we read data from sheet1  
                     oleAdpt.Fill(dtexcel); //fill excel data into dataTable  
 
             }
