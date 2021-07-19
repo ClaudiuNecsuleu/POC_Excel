@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,22 +24,29 @@ namespace POC_Excel
         private void button1_Click(object sender, EventArgs e)
         {
 
-            DataTable dtExcel = new DataTable();
-            string conn = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @"Lista studenti.xlsx" + "; Extended Properties='Excel 12.0;HDR=NO';"; 
+            Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
 
-            OleDbConnection con = new OleDbConnection(conn);
+            Workbook workbook = excel.Workbooks.Open(@"C:\Users\Toni\Desktop\POC_Excel\POC_Excel\bin\Debug\Lista studenti.xlsx", ReadOnly: false, Editable: true);
+            Worksheet worksheet = workbook.Worksheets.Item[1] as Worksheet;
 
-            OleDbDataAdapter oleAdpt = new OleDbDataAdapter("select * from [Foaie1$]", con); 
-            oleAdpt.Fill(dtExcel);
-
-
-            foreach (DataRow row in dtExcel.Rows)
+            for (int i = 2; i <= 4; i++)
             {
-                foreach (var item in row.ItemArray)
-                {
-                    Console.WriteLine(item);
-                }
+                
+                Range t = worksheet.Cells[i,2];
+                t.Value = ((string)t.Value).ToUpper();
             }
+
+            //var abc = worksheet.Cells[2, 1].Value;
+            //Range row1 = worksheet.Rows.Cells[1, 1];
+            //Range row2 = worksheet.Rows.Cells[2, 1];
+
+            //row1.Value = "Test100";
+            //row2.Value = "Test200";
+
+
+            excel.Application.ActiveWorkbook.Save();
+            excel.Application.Quit();
+            excel.Quit();
 
         }
 }
